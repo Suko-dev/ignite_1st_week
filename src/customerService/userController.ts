@@ -27,14 +27,11 @@ class UserController {
 
     public async getStatment(req: Request, res: Response): Promise<Response> {
         try {
-            const { cpf } = req.headers;
-            const customer = customers.find((item) => {
-                return item.cpf === cpf;
-            });
-            if (!customer) {
-                return res.status(400).json({ erro: 'customer not found' });
+            const { customer } = req;
+            if (customer) {
+                return res.status(200).json(customer.statment);
             }
-            return res.status(200).json(customer.statment);
+            return res.status(204).json({ error: 'customer not found' });
         } catch (error) {
             return res.status(400).json({ erro: error });
         }
