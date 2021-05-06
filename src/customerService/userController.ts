@@ -25,7 +25,7 @@ class UserController {
         }
     }
 
-    public async statment(req: Request, res: Response): Promise<Response> {
+    public async getStatment(req: Request, res: Response): Promise<Response> {
         try {
             const { cpf } = req.headers;
             const customer = customers.find((item) => {

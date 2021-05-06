@@ -16,7 +16,7 @@ export default class App {
         this.routes();
     }
 
-    private midlewares() {
+    private midlewares(): void {
         this.express.use(express.json());
     }
 

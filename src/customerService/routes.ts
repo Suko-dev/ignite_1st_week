@@ -3,8 +3,9 @@ import { Router } from 'express';
 import UserController from './userController';
 
 const userRouter = Router();
+const userController = new UserController();
 
-userRouter.post('/account', new UserController().create);
-userRouter.get('/statment', new UserController().statment);
+userRouter.post('/account', userController.create);
+userRouter.get('/statment', userController.getStatment);
 
 export default userRouter;
