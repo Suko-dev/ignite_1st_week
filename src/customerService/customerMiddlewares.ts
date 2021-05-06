@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { customers } from './model';
+import { customers } from './customerModel';
 
 class CustomerMiddlewares {
     public async verifyIfExistsAccountCPF(

@@ -1,9 +1,25 @@
 import { Request, Response } from 'express';
 import { v4 as uuid } from 'uuid';
-import { ICustomer } from './interfaces';
-import { customers } from './model';
+import { ICustomer, IStatement, Transactions } from './customerInterfaces';
+import { customers } from './customerModel';
 
-class UserController {
+class CustomerController {
+    public async setStatment(req: Request, res: Response): Promise<Response> {
+        try {
+            const { description, amount }: IStatement = req.body;
+            const { customer } = req;
+            customer?.statement.push({
+                description,
+                amount,
+                createdAt: new Date(),
+                type: Transactions.deposit,
+            });
+            return res.status(200).json(customer?.statement);
+        } catch (error) {
+            return res.status(500).json({ erro: error });
+        }
+    }
+
     public async create(req: Request, res: Response): Promise<Response> {
         try {
             const { cpf, name }: ICustomer = req.body;
@@ -17,7 +33,7 @@ class UserController {
                     .json({ erro: 'customer already exists' });
             }
             const id = uuid();
-            const customer: ICustomer = { cpf, name, id, statment: [] };
+            const customer: ICustomer = { cpf, name, id, statement: [] };
             customers.push(customer);
             return res.status(200).json(customer);
         } catch (err) {
@@ -29,7 +45,7 @@ class UserController {
         try {
             const { customer } = req;
             if (customer) {
-                return res.status(200).json(customer.statment);
+                return res.status(200).json(customer.statement);
             }
             return res.status(204).json({ error: 'customer not found' });
         } catch (error) {
@@ -38,4 +54,4 @@ class UserController {
     }
 }
 
-export default UserController;
+export default CustomerController;

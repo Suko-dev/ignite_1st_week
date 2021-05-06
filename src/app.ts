@@ -1,5 +1,5 @@
 import express from 'express';
-import userRouter from './customerService/routes';
+import customerRouter from './customerService/customerRoutes';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
@@ -31,6 +31,6 @@ export default class App {
     }
 
     private routes(): void {
-        this.express.use('/user', userRouter);
+        this.express.use('/customer', customerRouter);
     }
 }
