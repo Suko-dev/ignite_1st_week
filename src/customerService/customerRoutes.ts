@@ -23,5 +23,25 @@ customerRouter.post(
     CustomerMiddleware.verifyIfBallanceIsEnough,
     customerController.withdraw
 );
+customerRouter.put(
+    '/account',
+    CustomerMiddleware.verifyIfExistsAccountCPF,
+    customerController.editAccount
+);
+customerRouter.get(
+    '/account',
+    CustomerMiddleware.verifyIfExistsAccountCPF,
+    customerController.findAccount
+);
+customerRouter.delete(
+    '/account',
+    CustomerMiddleware.verifyIfExistsAccountCPF,
+    customerController.deletAccount
+);
+customerRouter.get(
+    '/ballance',
+    CustomerMiddleware.verifyIfExistsAccountCPF,
+    customerController.sendBallance
+);
 
 export default customerRouter;
