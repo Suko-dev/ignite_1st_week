@@ -4,7 +4,7 @@ import { ICustomer, IStatement, Transactions } from './customerInterfaces';
 import { customers } from './customerModel';
 
 class CustomerController {
-    public async setStatment(req: Request, res: Response): Promise<Response> {
+    public async deposit(req: Request, res: Response): Promise<Response> {
         try {
             const { description, amount }: IStatement = req.body;
             const { customer } = req;
@@ -12,12 +12,21 @@ class CustomerController {
                 description,
                 amount,
                 createdAt: new Date(),
-                type: Transactions.deposit,
+                type: Transactions.credit,
             });
             return res.status(200).json(customer?.statement);
         } catch (error) {
             return res.status(500).json({ erro: error });
         }
+    }
+
+    public getBallance(statment: Array<IStatement>): number {
+        return statment.reduce((acc, item) => {
+            if (item.type === Transactions.credit) {
+                return acc + Number(item.amount);
+            }
+            return acc - Number(item.amount);
+        }, 0);
     }
 
     public async create(req: Request, res: Response): Promise<Response> {
@@ -44,12 +53,25 @@ class CustomerController {
     public async getStatment(req: Request, res: Response): Promise<Response> {
         try {
             const { customer } = req;
-            if (customer) {
-                return res.status(200).json(customer.statement);
-            }
-            return res.status(204).json({ error: 'customer not found' });
+            return res.status(200).json(customer?.statement);
         } catch (error) {
             return res.status(400).json({ erro: error });
+        }
+    }
+
+    public async withdraw(req: Request, res: Response): Promise<Response> {
+        try {
+            const { description, amount }: IStatement = req.body;
+            const { customer } = req;
+            customer?.statement.push({
+                description,
+                amount,
+                createdAt: new Date(),
+                type: Transactions.debit,
+            });
+            return res.status(200).json(customer?.statement);
+        } catch (error) {
+            return res.status(500).json({ erro: error });
         }
     }
 }

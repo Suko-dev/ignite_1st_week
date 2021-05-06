@@ -15,7 +15,13 @@ customerRouter.get(
 customerRouter.post(
     '/deposit',
     CustomerMiddleware.verifyIfExistsAccountCPF,
-    customerController.setStatment
+    customerController.deposit
+);
+customerRouter.post(
+    '/withdraw',
+    CustomerMiddleware.verifyIfExistsAccountCPF,
+    CustomerMiddleware.verifyIfBallanceIsEnough,
+    customerController.withdraw
 );
 
 export default customerRouter;

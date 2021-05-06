@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-shadow
 export enum Transactions {
-    deposit,
     credit,
+    debit,
 }
 export interface IStatement {
     description: string;
