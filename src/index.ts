@@ -1,10 +1,5 @@
-import express from 'express'
-require('dotenv').config()
+import App from './app';
 
-const app = express()
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 
-app.listen(process.env.PORT)
-
-app.get('/', (request, response) => {
-  return response.json({ message: 'Hello, mundo!' })
-})
+const app = new App().getApp();
