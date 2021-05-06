@@ -6,8 +6,6 @@ import { customers } from './model';
 class UserController {
     public async create(req: Request, res: Response): Promise<Response> {
         try {
-            console.log(this); // erro de escopo, descobrir como arruma
-
             const { cpf, name }: ICustomer = req.body;
             const customerAlreadyExists = customers.some((item) => {
                 return item.cpf === cpf;
@@ -28,7 +26,6 @@ class UserController {
     }
 
     public async statment(req: Request, res: Response): Promise<Response> {
-        console.log(this); // erro de escopo, descobrir como arruma
         try {
             const { cpf } = req.headers;
             const customer = customers.find((item) => {

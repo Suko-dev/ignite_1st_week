@@ -30,7 +30,7 @@ export default class App {
         });
     }
 
-    private routes() {
+    private routes(): void {
         this.express.use('/user', userRouter);
     }
 }
